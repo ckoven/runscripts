@@ -30,7 +30,7 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
 
     ./xmlchange STOP_OPTION=nyears
     #./xmlchange STOP_N=200
-    ./xmlchange STOP_N=30
+    ./xmlchange STOP_N=50
     ./xmlchange REST_N=10
     ./xmlchange CONTINUE_RUN=FALSE
     #./xmlchange RESUBMIT=2
@@ -92,7 +92,7 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
 fates_paramfile = '${basedir}/${CASE_NAME}/param_file.nc'
 !fates_paramfile = '${basedir}/${CASE_NAME}/param_file_${SETUP_CASE}.nc'
-hist_fincl1 = 'NPLANT_SCPF','M1_SCPF','M2_SCPF','M3_SCPF','M4_SCPF','M5_SCPF','M6_SCPF','M7_SCPF','M8_SCPF'
+hist_fincl1 = 'NPLANT_SCPF','M1_SCPF','M2_SCPF','M3_SCPF','M4_SCPF','M5_SCPF','M6_SCPF','M7_SCPF','M8_SCPF','PFTcrownarea'
 use_fates_spitfire = .false.
 EOF
 
