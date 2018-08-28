@@ -6,9 +6,13 @@ GITHASH1=`git log -n 1 --format=%h`
 cd src/fates
 GITHASH2=`git log -n 1 --format=%h`
 
-SETUP_CASE=fates_clm50_fullmodel_california_test2_3pfts_nohydromort_respthrott_nospitfire_storage1pt8_mod
+#SETUP_CASE=fates_clm50_fullmodel_california_test3_3pfts_nohydromort_spitfire
+SETUP_CASE=fates_clm50_fullmodel_california_test3_3pfts_hydromort_spitfire_fromrestart_v2
+#SETUP_CASE=fates_clm50_fullmodel_california_test3_3pfts_hydromort_spitfire_fromrestart_v2_modscorchheight
+#SETUP_CASE=fates_clm50_fullmodel_california_test3_3pfts_hydromort_spitfire_fromrestart_v2_modbark
+#SETUP_CASE=fates_clm50_fullmodel_california_test3_3pfts_hydromort_spitfire_fromrestart_v2_modbark_modscorchheight
 
-if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromort_respthrott_nospitfire_storage1pt8_mod" ]; then
+if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test3_3pfts_hydromort_spitfire_fromrestart_v2" ]; then
 
     CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
     basedir=$HOME/ctsm/cime/scripts
@@ -29,13 +33,12 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
     export CLM_DOMAIN_DIR=$HOME/domains
 
     ./xmlchange STOP_OPTION=nyears
-    #./xmlchange STOP_N=200
-    ./xmlchange STOP_N=50
-    ./xmlchange REST_N=10
-    ./xmlchange CONTINUE_RUN=FALSE
-    #./xmlchange RESUBMIT=2
-    ./xmlchange RESUBMIT=0
-    ./xmlchange DEBUG=FALSE
+    ./xmlchange STOP_N=7
+    ./xmlchange REST_N=1
+    ./xmlchange REST_OPTION=nyears
+    #./xmlchange CONTINUE_RUN=FALSE
+    #./xmlchange RESUBMIT=0
+    #./xmlchange DEBUG=FALSE
     
     #./xmlchange DIN_LOC_ROOT=/glade/u/home/charlie/cesm_input_data
 
@@ -50,6 +53,8 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
     ./xmlchange CLM_USRDAT_NAME=${SITE_NAME}
     #./xmlchange DIN_LOC_ROOT_CLMFORC=${DIN_LOC_ROOT_FORCE}
 
+    ./xmlchange DIN_LOC_ROOT_CLMFORC=/glade/p/cgd/tss/CTSM_datm_forcing_data
+
     ./xmlchange NTASKS_LND=144
     
     ./xmlchange EXEROOT=/glade2/scratch2/charlie/$CASE_NAME/bld
@@ -63,8 +68,10 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
     ./xmlchange RUN_STARTDATE=0001-01-01
 
     ### generate a fates parameter file for this experiment
+    module load python/2.7.13
+    module load numpy/1.13.3
+    module load scipy/0.19.1
     module load matplotlib
-    module load scipy
     ncgen -o param_file_${SETUP_CASE}_temp0.nc $HOME/ctsm/src/fates/parameter_files/fates_params_14pfts.cdl
     # $HOME/ctsm/src/fates/tools/FatesPFTIndexSwapper.py --fin param_file_${SETUP_CASE}_temp0.nc --fout param_file_${SETUP_CASE}.nc --pft-indices 9,7,13
     # $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_mort_scalar_hydrfailure --val 0 --allpfts
@@ -76,24 +83,28 @@ if [ "${SETUP_CASE}" == "fates_clm50_fullmodel_california_test2_3pfts_nohydromor
     # $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_allom_d2bl1 --val 0.2 --PFT 1
 
     $HOME/ctsm/src/fates/tools/FatesPFTIndexSwapper.py --fin param_file_${SETUP_CASE}_temp0.nc --fout param_file_${SETUP_CASE}.nc --pft-indices 2,7,13
-    $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_mort_scalar_hydrfailure --val 0 --allpfts
+    #$HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_mort_scalar_hydrfailure --val 0 --allpfts
     $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_recruit_initd --val 0.2 --allpfts
     $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_alloc_storage_cushion --val 1.8 --PFT 1
     $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_alloc_storage_cushion --val 1.8 --PFT 2
+#    $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_fire_alpha_SH --val 0.06 --allpfts
+#    $HOME/ctsm/src/fates/tools/modify_fates_paramfile.py --fin param_file_${SETUP_CASE}.nc --fout param_file_${SETUP_CASE}.nc --O --var fates_fire_bark_scaler --val 0.1085 --allpfts
 
     mv param_file_${SETUP_CASE}.nc param_file.nc
 
     \rm param_file_${SETUP_CASE}_temp0.nc
-    module unload matplotlib
+
     module unload scipy
+    module unload numpy
 
     cat > user_nl_clm <<EOF
 
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
 fates_paramfile = '${basedir}/${CASE_NAME}/param_file.nc'
 !fates_paramfile = '${basedir}/${CASE_NAME}/param_file_${SETUP_CASE}.nc'
-hist_fincl1 = 'NPLANT_SCPF','M1_SCPF','M2_SCPF','M3_SCPF','M4_SCPF','M5_SCPF','M6_SCPF','M7_SCPF','M8_SCPF','PFTcrownarea'
-use_fates_spitfire = .false.
+hist_fincl1 = 'NPLANT_SCPF','M1_SCPF','M2_SCPF','M3_SCPF','M4_SCPF','M5_SCPF','M6_SCPF','M7_SCPF','M8_SCPF','PFTcrownarea','CROWNFIREMORT_SCPF','CAMBIALFIREMORT_SCPF'
+use_fates_spitfire = .true.
+finidat =  '/glade/u/home/charlie/scratch/restfiles/fates_clm50_fullmodel_california_test3_3pfts_hydromort_nospitfire_ff88d21_91785e3.clm2.r.0051-01-01-00000.nc'
 EOF
 
     ./case.setup
