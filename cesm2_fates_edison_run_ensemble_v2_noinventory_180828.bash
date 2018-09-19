@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 
-SRCDIR=$HOME/cesm/components/clm
+# SRCDIR=$HOME/cesm/components/clm
+# cd ${SRCDIR}
+# GITHASH1=`git log -n 1 --format=%h`
+# cd src/fates
+# GITHASH2=`git log -n 1 --format=%h`
+
+SRCDIR=$HOME/ctsm/src/
 cd ${SRCDIR}
 GITHASH1=`git log -n 1 --format=%h`
-cd src/fates
+cd fates
 GITHASH2=`git log -n 1 --format=%h`
 
 
-SETUP_CASE=fates_cesm2_edison_fullmodel_bci_parameter_ensemble_1pft_v009
+SETUP_CASE=fates_ctsm_edison_fullmodel_bci_parameter_ensemble_1pft_v009_set04
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
-basedir=$HOME/cesm/cime/scripts
+basedir=$HOME/ctsm/cime/scripts
 export SITE_NAME=bci_0.1x0.1_v4.0i                         # Name of folder with site data
 export SITE_BASE_DIR=/global/cscratch1/sd/cdkoven/cesm_inputdata/atm/datm7/CLM_USRDAT_datasets/
 export CLM_USRDAT_DOMAIN=domain_bci_sparse_grid_c180227.nc
@@ -23,8 +29,8 @@ export RES=CLM_USRDAT
 project=m2420
 ./create_newcase -case ${CASE_NAME} -res ${RES} -compset I2000Clm50FatesGs -mach edison -project $project --run-unsupported
 cd ${CASE_NAME}
-export DIN_LOC_ROOT_FORCE=${SITE_BASE_DIR}
-export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
+ export DIN_LOC_ROOT_FORCE=${SITE_BASE_DIR}
+ export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 
  ./xmlchange STOP_OPTION=nyears
@@ -59,15 +65,15 @@ export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 
 ./xmlchange RUN_STARTDATE=0001-06-01
 
-./xmlchange NINST_LND=767
+./xmlchange NINST_LND=47
 ./xmlchange ROOTPE_LND=1
 
-for x  in `seq 1 1 767`; do
+for x  in `seq 1 1 47`; do
     expstr=$(printf %04d $x)
     echo $expstr
     cat > user_nl_clm_$expstr <<EOF
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
-fates_paramfile = '/global/homes/c/cdkoven/scratch/parameter_file_sandbox/fates_params_3f10ad6_bcitraits_test02_v_${expstr}.c180828.nc'
+fates_paramfile = '/global/homes/c/cdkoven/scratch/parameter_file_sandbox/fates_params_3f10ad6_bcitraits_test02_v_${expstr}.c180913.nc'
 use_fates_inventory_init = .false.
 use_fates_ed_st3 = .false.
 hist_empty_htapes = .true.
