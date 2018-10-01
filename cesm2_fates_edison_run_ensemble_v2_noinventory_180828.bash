@@ -13,7 +13,7 @@ cd fates
 GITHASH2=`git log -n 1 --format=%h`
 
 
-SETUP_CASE=fates_ctsm_edison_fullmodel_bci_parameter_ensemble_1pft_v009_set07
+SETUP_CASE=fates_ctsm_edison_fullmodel_bci_parameter_ensemble_1pft_v009_set08
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
 basedir=$HOME/ctsm/cime/scripts
@@ -28,7 +28,7 @@ cd $basedir
 export RES=CLM_USRDAT
 project=m2420
 ninst=767
-./create_newcase -case ${CASE_NAME} -res ${RES} -compset I2000Clm50FatesGs -mach edison -project $project --run-unsupported --ninst=$ninst --multi-driver
+#./create_newcase -case ${CASE_NAME} -res ${RES} -compset I2000Clm50FatesGs -mach edison -project $project --run-unsupported --ninst=$ninst --multi-driver
 cd ${CASE_NAME}
  export DIN_LOC_ROOT_FORCE=${SITE_BASE_DIR}
  export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
@@ -80,7 +80,7 @@ for x  in `seq 1 1 $ninst`; do
     echo $expstr
     cat > user_nl_clm_$expstr <<EOF
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
-fates_paramfile = '/global/homes/c/cdkoven/scratch/parameter_file_sandbox/fates_params_3f10ad6_bcitraits_test02_v_${expstr}.c180913.nc'
+fates_paramfile = '/global/homes/c/cdkoven/scratch/parameter_file_sandbox/fates_params_358720c_bcitraits_test02_v_${expstr}.c180925.nc'
 use_fates_inventory_init = .false.
 use_fates_ed_st3 = .false.
 hist_empty_htapes = .true.
@@ -106,8 +106,10 @@ for x  in `seq 1 1 $ninst`; do
 
     cp /global/homes/c/cdkoven/scratch/$CASE_NAME/run/datm.streams.txt.CLM1PT.CLM_USRDAT_${expstr} user_datm.streams.txt.CLM1PT.CLM_USRDAT_${expstr}
     `sed -i '/FLDS/d' user_datm.streams.txt.CLM1PT.CLM_USRDAT_${expstr}`
+    `sed -i '/FLDS/d' /global/homes/c/cdkoven/scratch/$CASE_NAME/run/datm.streams.txt.CLM1PT.CLM_USRDAT_${expstr}`
 done
+
 ./case.build
-./case.submit
+./case.submit --skip-preview-namelist
 
 
