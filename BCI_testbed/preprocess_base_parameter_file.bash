@@ -22,8 +22,11 @@ cd $param_file_dir
 
 descriptor=1PFT_exp1
 
+# make 2 clones of the tropical forest PFT
+$scriptdir/FatesPFTIndexSwapper.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --pft-indices=1,1
+
 # set maximum crown area at 200 cm
-$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --allpfts --var fates_allom_dbh_maxheight --val 200
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --allpfts --var fates_allom_dbh_maxheight --val 200
 
 # use martinez-cano height allometry
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --allpfts --var fates_allom_hmode --val 5
@@ -52,4 +55,9 @@ $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$d
 
 # kill off the second PFT entirely
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_recruit_initd --val 0 --pft 2
+
+# increase history variable resolution for size, age, and height bins
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_history_ageclass_bin_edges --val 0,1,2,5,10,20,50,100,200 --changeshape
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_history_sizeclass_bin_edges --val 0,1,1.221403,1.491825,1.822119,2.225541,2.718282,3.320117,4.0552,4.953032,6.049647,7.389056,9.025014,11.02318,13.46374,16.44465,20.08554,24.53253,29.9641,36.59824,44.70118,54.59815,66.68633,81.45087,99.48431,121.5104 --changeshape
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_history_height_bin_edges --val 0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48 --changeshape
 
