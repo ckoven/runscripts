@@ -8,7 +8,7 @@ ncar_pylib
 DATE=`date +%Y%m%d`
 param_file_dir=~/scratch/parameter_file_sandbox/
 srcdir=~/ctsm/src/fates/
-v
+
 scriptdir=$srcdir/tools/ 
 
 cd $srcdir
@@ -20,7 +20,7 @@ ncgen -o $param_file_dir/fates_params_default_$GITHASH.nc $srcdir/parameter_file
 
 cd $param_file_dir
 
-descriptor=1PFT_exp1
+descriptor=2PFTs_exp1
 
 # make 2 clones of the tropical forest PFT
 $scriptdir/FatesPFTIndexSwapper.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --pft-indices=1,1
@@ -53,8 +53,8 @@ $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$d
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_disturb_frac --val 0.5
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_understorey_death --val 1.0
 
-# kill off the second PFT entirely
-$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_recruit_initd --val 0 --pft 2
+## kill off the second PFT entirely
+#$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_recruit_initd --val 0 --pft 2
 
 # increase history variable resolution for size, age, and height bins
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_history_ageclass_bin_edges --val 0,1,2,5,10,20,50,100,200 --changeshape
