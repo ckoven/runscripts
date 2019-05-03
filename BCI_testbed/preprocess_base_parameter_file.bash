@@ -20,7 +20,7 @@ ncgen -o $param_file_dir/fates_params_default_$GITHASH.nc $srcdir/parameter_file
 
 cd $param_file_dir
 
-descriptor=2PFTs_pureEDdist_exp4
+descriptor=2PFTs_purePPAdist_exp4
 
 # make 2 clones of the tropical forest PFT
 $scriptdir/FatesPFTIndexSwapper.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --pft-indices=1,1
@@ -50,8 +50,8 @@ $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$d
 
 # set disturbance parameters
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_comp_excln --val -1
-$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_disturb_frac --val 1.0
-$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_understorey_death --val 0.5
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_disturb_frac --val 0.0
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_understorey_death --val 0.0
 
 ## kill off the second PFT entirely
 #$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_recruit_initd --val 0 --pft 2
