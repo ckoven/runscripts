@@ -7,9 +7,9 @@ cd src/fates
 GITHASH2=`git log -n 1 --format=%h`
 
 #SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_30pfts_190422_multiinst_576inst_v1
-#SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_10pfts_190422_multiinst_576inst_v1
+SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_10pfts_190422_multiinst_576inst_v2
 #SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_3pfts_190422_multiinst_576inst_v1
-SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_10pfts_nomixing_190425_multiinst_576inst_v1
+#SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_exp3_10pfts_nomixing_190425_multiinst_576inst_v1
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
 basedir=$HOME/ctsm/cime/scripts
@@ -31,11 +31,11 @@ export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 
 ./xmlchange STOP_OPTION=nyears
-./xmlchange STOP_N=40
+./xmlchange STOP_N=20
 ./xmlchange REST_N=10
 ./xmlchange CONTINUE_RUN=FALSE
 ./xmlchange DEBUG=FALSE
-./xmlchange RESUBMIT=1
+./xmlchange RESUBMIT=5
 
 ./xmlchange DIN_LOC_ROOT=/glade/u/home/charlie/cesm_input_data
 
