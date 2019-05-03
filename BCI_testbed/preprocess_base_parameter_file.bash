@@ -20,10 +20,10 @@ ncgen -o $param_file_dir/fates_params_default_$GITHASH.nc $srcdir/parameter_file
 
 cd $param_file_dir
 
-descriptor=2PFTs_exp2_cmpexcl3
+descriptor=30PFTs_exp3
 
 # make 2 clones of the tropical forest PFT
-$scriptdir/FatesPFTIndexSwapper.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --pft-indices=1,1
+$scriptdir/FatesPFTIndexSwapper.py --fin fates_params_default_${GITHASH}.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --pft-indices=1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 
 # set maximum crown area at 200 cm
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --allpfts --var fates_allom_dbh_maxheight --val 200
@@ -49,7 +49,7 @@ $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$d
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_allom_fmode --val 2 --allpfts
 
 # set disturbance parameters
-$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_comp_excln --val -3
+$scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_comp_excln --val -1
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_disturb_frac --val 0.5
 $scriptdir/modify_fates_paramfile.py --fin fates_params_default_${GITHASH}_mod$descriptor.nc --fout fates_params_default_${GITHASH}_mod$descriptor.nc --O --var fates_mort_understorey_death --val 1.0
 
