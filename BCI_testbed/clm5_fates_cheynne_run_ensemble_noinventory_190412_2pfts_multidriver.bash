@@ -6,7 +6,7 @@ GITHASH1=`git log -n 1 --format=%h`
 cd src/fates
 GITHASH2=`git log -n 1 --format=%h`
 
-SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_2pfts_190416_multiinst_576inst_pureEDdist_
+SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_2pfts_190416_multiinst_576inst_purePPAdist_v2_
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
 basedir=$HOME/ctsm/cime/scripts
@@ -68,7 +68,7 @@ for x  in `seq 1 1 $ninst`; do
     echo $expstr
     cat > user_nl_clm_$expstr <<EOF
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
-fates_paramfile = '/glade/scratch/charlie/parameter_file_sandbox/fates_params_default_0bc7a5d_mod2PFTs_pureEDdist_exp4_${expstr}.c190503.nc'
+fates_paramfile = '/glade/scratch/charlie/parameter_file_sandbox/fates_params_default_0bc7a5d_mod2PFTs_purePPAdist_exp4_${expstr}.c190513.nc'
 use_fates_inventory_init = .true.
 fates_inventory_ctrl_filename = '${SITE_BASE_DIR}/bci_inv_file_list_2identicalpfts.txt'
 use_fates_ed_st3 = .false.
