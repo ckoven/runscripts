@@ -6,7 +6,7 @@ GITHASH1=`git log -n 1 --format=%h`
 cd src/fates
 GITHASH2=`git log -n 1 --format=%h`
 
-SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_2pfts_190416_multiinst_576inst_pureEDdist_v2_
+SETUP_CASE=fates_clm5_fullmodel_bci_parameter_ensemble_2pfts_190416_multiinst_576inst_cmpexcl1
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
 basedir=$HOME/ctsm/cime/scripts
@@ -21,46 +21,46 @@ cd $basedir
 export RES=CLM_USRDAT
 project=P93300041
 ninst=576
-# ./create_newcase -case ${CASE_NAME} -res ${RES} -compset I2000Clm50FatesGs -mach cheyenne -project $project --run-unsupported --ninst=$ninst --multi-driver
+./create_newcase -case ${CASE_NAME} -res ${RES} -compset I2000Clm50FatesGs -mach cheyenne -project $project --run-unsupported --ninst=$ninst --multi-driver
 cd ${CASE_NAME}
 export DIN_LOC_ROOT_FORCE=${SITE_BASE_DIR}
 export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 
-# ./xmlchange STOP_OPTION=nyears
-# ./xmlchange STOP_N=40
-# ./xmlchange REST_N=5
-# ./xmlchange CONTINUE_RUN=FALSE
-# ./xmlchange DEBUG=FALSE
-# ./xmlchange RESUBMIT=4
+./xmlchange STOP_OPTION=nyears
+./xmlchange STOP_N=40
+./xmlchange REST_N=5
+./xmlchange CONTINUE_RUN=FALSE
+./xmlchange DEBUG=FALSE
+./xmlchange RESUBMIT=4
 
-# ./xmlchange DIN_LOC_ROOT=/glade/u/home/charlie/cesm_input_data
+./xmlchange DIN_LOC_ROOT=/glade/u/home/charlie/cesm_input_data
 
-# # SET PATHS TO SCRATCH ROOT, DOMAIN AND MET DATA (USERS WILL PROB NOT CHANGE THESE)
-# # =================================================================================
+# SET PATHS TO SCRATCH ROOT, DOMAIN AND MET DATA (USERS WILL PROB NOT CHANGE THESE)
+# =================================================================================
 
-# ./xmlchange ATM_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
-# ./xmlchange ATM_DOMAIN_PATH=${CLM_DOMAIN_DIR}
-# ./xmlchange LND_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
-# ./xmlchange LND_DOMAIN_PATH=${CLM_DOMAIN_DIR}
-# ./xmlchange DATM_MODE=CLM1PT
-# ./xmlchange CLM_USRDAT_NAME=${SITE_NAME}
-# ./xmlchange DIN_LOC_ROOT_CLMFORC=${DIN_LOC_ROOT_FORCE}
+./xmlchange ATM_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
+./xmlchange ATM_DOMAIN_PATH=${CLM_DOMAIN_DIR}
+./xmlchange LND_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
+./xmlchange LND_DOMAIN_PATH=${CLM_DOMAIN_DIR}
+./xmlchange DATM_MODE=CLM1PT
+./xmlchange CLM_USRDAT_NAME=${SITE_NAME}
+./xmlchange DIN_LOC_ROOT_CLMFORC=${DIN_LOC_ROOT_FORCE}
 
 
-# ./xmlchange EXEROOT=/gpfs/fs1/scratch/charlie/$CASE_NAME/bld
-# ./xmlchange RUNDIR=/gpfs/fs1/scratch/charlie/$CASE_NAME/run
-# ./xmlchange DOUT_S_ROOT=/gpfs/fs1/scratch/charlie/archive/$CASE_NAME
+./xmlchange EXEROOT=/gpfs/fs1/scratch/charlie/$CASE_NAME/bld
+./xmlchange RUNDIR=/gpfs/fs1/scratch/charlie/$CASE_NAME/run
+./xmlchange DOUT_S_ROOT=/gpfs/fs1/scratch/charlie/archive/$CASE_NAME
 
-# ./xmlchange JOB_WALLCLOCK_TIME=05:59:00
-# ./xmlchange STOP_OPTION=nyears
-# ./xmlchange DATM_CLMNCEP_YR_START=1986
-# ./xmlchange DATM_CLMNCEP_YR_END=2017
+./xmlchange JOB_WALLCLOCK_TIME=05:59:00
+./xmlchange STOP_OPTION=nyears
+./xmlchange DATM_CLMNCEP_YR_START=1986
+./xmlchange DATM_CLMNCEP_YR_END=2017
 
-# ./xmlchange RUN_STARTDATE=0001-06-01
+./xmlchange RUN_STARTDATE=0001-06-01
 
-# ./xmlchange MAX_TASKS_PER_NODE=18
-# ./xmlchange MAX_MPITASKS_PER_NODE=18
+./xmlchange MAX_TASKS_PER_NODE=18
+./xmlchange MAX_MPITASKS_PER_NODE=18
 
 
 for x  in `seq 1 1 $ninst`; do
@@ -68,7 +68,7 @@ for x  in `seq 1 1 $ninst`; do
     echo $expstr
     cat > user_nl_clm_$expstr <<EOF
 fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
-fates_paramfile = '/glade/scratch/charlie/parameter_file_sandbox/fates_params_default_0bc7a5d_mod2PFTs_pureEDdist_exp4_${expstr}.c190513.nc'
+fates_paramfile = '/glade/scratch/charlie/parameter_file_sandbox/fates_params_default_106ac7a_mod2PFTs_exp2_cmpexcl1_${expstr}.c190416.nc'
 use_fates_inventory_init = .true.
 fates_inventory_ctrl_filename = '${SITE_BASE_DIR}/bci_inv_file_list_2identicalpfts.txt'
 use_fates_ed_st3 = .false.
