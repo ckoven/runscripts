@@ -6,7 +6,7 @@ GITHASH1=`git log -n 1 --format=%h`
 cd components/clm/src/external_models/fates
 GITHASH2=`git log -n 1 --format=%h`
 
-SETUP_CASE=fates_e3sm_fullmodel_bci_parameter_ensemble_1pft_190329_multiinst_36inst
+SETUP_CASE=fates_e3sm_fullmodel_bci_parameter_ensemble_1pft_190329_multiinst_576inst
 
 CASE_NAME=${SETUP_CASE}_${GITHASH1}_${GITHASH2}
 basedir=$HOME/E3SM/cime/scripts
@@ -20,7 +20,7 @@ export CIME_MODEL=e3sm
 cd $basedir
 export RES=CLM_USRDAT
 project=ac_ngeet
-ninst=36
+ninst=576
 ./create_newcase -case ${CASE_NAME} -res ${RES} -compset ICLM45ED -mach lawrencium-lr3 -project $project --ninst=$ninst --multi-driver
 cd ${CASE_NAME}
 export DIN_LOC_ROOT_FORCE=${SITE_BASE_DIR}
@@ -28,8 +28,8 @@ export CLM_SURFDAT_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 
 ./xmlchange STOP_OPTION=nyears
-./xmlchange STOP_N=1
-./xmlchange REST_N=1
+./xmlchange STOP_N=200
+./xmlchange REST_N=50
 ./xmlchange CONTINUE_RUN=FALSE
 ./xmlchange DEBUG=FALSE
 ./xmlchange RESUBMIT=0
@@ -47,23 +47,29 @@ export CLM_DOMAIN_DIR=${SITE_BASE_DIR}/${SITE_NAME}
 ./xmlchange CLM_USRDAT_NAME=${SITE_NAME}
 ./xmlchange DIN_LOC_ROOT_CLMFORC=${DIN_LOC_ROOT_FORCE}
 
+./xmlchange MAX_TASKS_PER_NODE=16     # for lawrencium-lr3
+./xmlchange MAX_MPITASKS_PER_NODE=16  # for lawrencium-lr3
 
 ./xmlchange EXEROOT=/global/scratch/cdkoven/$CASE_NAME/bld
 ./xmlchange RUNDIR=/global/scratch/cdkoven/$CASE_NAME/run
 ./xmlchange DOUT_S_ROOT=/global/scratch/cdkoven/archive/$CASE_NAME
 
-./xmlchange JOB_WALLCLOCK_TIME=05:59:00
+./xmlchange JOB_WALLCLOCK_TIME=11:59:00
 ./xmlchange STOP_OPTION=nyears
 ./xmlchange DATM_CLMNCEP_YR_START=1986
 ./xmlchange DATM_CLMNCEP_YR_END=2017
 
 ./xmlchange RUN_STARTDATE=0001-06-01
 
-# hist_fexcl1 = 'AGB_SCLS','BA_SCLS','CANOPY_AREA_BY_AGE','CANOPY_HEIGHT_DIST','CROWNAREA_CAN','DDBH_CANOPY_SCLS','DDBH_UNDERSTORY_SCLS','FATES_c_to_litr_cel_c','FATES_c_to_litr_lab_c','FATES_c_to_litr_lig_c','FUEL_MOISTURE_NFSC','H2OSOI','HR_vr','LAI_BY_AGE','LAI_CANOPY_SCLS','LAI_UNDERSTORY_SCLS','LEAF_HEIGHT_DIST','LITR1C_vr','LITR1N_vr','LITR2C_vr','LITR2N_vr','LITR3C_vr','LITR3N_vr','M1_SCLS','M2_SCLS','M3_SCLS','M4_SCLS','M5_SCLS','M6_SCLS','M7_SCLS','M8_SCLS','MORTALITY','MORTALITY_CANOPY_SCLS','MORTALITY_UNDERSTORY_SCLS','NPLANT_CANOPY_SCLS','NPLANT_SCAG','NPLANT_SCLS','NPLANT_UNDERSTORY_SCLS','O_SCALAR','PATCH_AREA_BY_AGE','PCT_GLC_MEC','PCT_LANDUNIT','PFTbiomass','PFTleafbiomass','PFTnindivs','PFTstorebiomass','RECRUITMENT','SMINN_vr','SMP','SOIL1C_vr','SOIL1N_vr','SOIL2C_vr','SOIL2N_vr','SOIL3C_vr','SOIL3N_vr','SOILICE','SOILLIQ','TLAKE','TSOI','TSOI_ICE','T_SCALAR','W_SCALAR','ZSTAR_BY_AGE'
+./xmlchange NTASKS_ATM=1
+./xmlchange NTASKS_CPL=1
+./xmlchange NTASKS_OCN=1
+./xmlchange NTASKS_WAV=1
+./xmlchange NTASKS_GLC=1
+./xmlchange NTASKS_ICE=1
+./xmlchange NTASKS_ROF=1
+./xmlchange NTASKS_LND=1
 
-# hist_fincl2 = 'ZSTAR_BY_AGE','RECRUITMENT','PFTbiomass','PATCH_AREA_BY_AGE','NPLANT_UNDERSTORY_SCLS','NPLANT_SCLS','NPLANT_SCAG','NPLANT_CANOPY_SCLS','MORTALITY_UNDERSTORY_SCLS','MORTALITY_CANOPY_SCLS','MORTALITY','M8_SCLS','M7_SCLS','M6_SCLS','M5_SCLS','M4_SCLS','M3_SCLS','M2_SCLS','M1_SCLS','LEAF_HEIGHT_DIST','LAI_UNDERSTORY_SCLS','LAI_CANOPY_SCLS','LAI_BY_AGE','FUEL_MOISTURE_NFSC','DDBH_UNDERSTORY_SCLS','DDBH_CANOPY_SCLS','CROWNAREA_CAN','CANOPY_HEIGHT_DIST','CANOPY_AREA_BY_AGE','BA_SCLS','AGB_SCLS','GROWTHFLUX_SCPF','GROWTHFLUX_FUSION_SCPF'
-
-# finidat = ' '
 
 for x  in `seq 1 1 $ninst`; do
     expstr=$(printf %04d $x)
@@ -74,10 +80,11 @@ fates_paramfile = '/global/home/users/cdkoven/scratch/parameter_file_sandbox/fat
 use_fates_inventory_init = .false.
 fates_inventory_ctrl_filename = '${SITE_BASE_DIR}/bci_inv_file_list.txt'
 use_fates_ed_st3 = .false.
-hist_empty_htapes = .true.
-hist_mfilt = 60
-hist_nhtfrq = 0
-hist_fincl1 ='NPLANT_UNDERSTORY_SCLS','NPLANT_SCLS','NPLANT_CANOPY_SCLS','MORTALITY_UNDERSTORY_SCLS','MORTALITY_CANOPY_SCLS','LAI_UNDERSTORY_SCLS','LAI_CANOPY_SCLS','DDBH_UNDERSTORY_SCLS','DDBH_CANOPY_SCLS','BA_SCLS','AGB_SCLS','GROWTHFLUX_SCPF','GROWTHFLUX_FUSION_SCPF','CARBON_BALANCE_CANOPY_SCLS','CARBON_BALANCE_UNDERSTORY_SCLS','TRIMMING_CANOPY_SCLS','TRIMMING_UNDERSTORY_SCLS','CROWN_AREA_CANOPY_SCLS','CROWN_AREA_UNDERSTORY_SCLS','NPP_LEAF_CANOPY_SCLS','NPP_BDEAD_CANOPY_SCLS','NPP_STORE_CANOPY_SCLS','NPP_BSEED_CANOPY_SCLS','NPP_BSW_CANOPY_SCLS','NPP_FROOT_CANOPY_SCLS'
+hist_empty_htapes = .false.
+hist_mfilt = 60, 10
+hist_nhtfrq = 0, -8760
+hist_fexcl1 = 'AGB_SCLS','BA_SCLS','CANOPY_AREA_BY_AGE','CANOPY_HEIGHT_DIST','CROWNAREA_CAN','DDBH_CANOPY_SCLS','DDBH_UNDERSTORY_SCLS','FUEL_MOISTURE_NFSC','H2OSOI','HR_vr','LAI_BY_AGE','LAI_CANOPY_SCLS','LAI_UNDERSTORY_SCLS','LEAF_HEIGHT_DIST','M1_SCLS','M2_SCLS','M3_SCLS','M4_SCLS','M5_SCLS','M6_SCLS','M7_SCLS','M8_SCLS','MORTALITY','MORTALITY_CANOPY_SCLS','MORTALITY_UNDERSTORY_SCLS','NPLANT_CANOPY_SCLS','NPLANT_SCAG','NPLANT_SCLS','NPLANT_UNDERSTORY_SCLS','PATCH_AREA_BY_AGE',,'RECRUITMENT','SMP','SOILICE','SOILLIQ','TLAKE','TSOI','TSOI_ICE','ZSTAR_BY_AGE'
+hist_fincl2 = 'ZSTAR_BY_AGE','RECRUITMENT','PATCH_AREA_BY_AGE','NPLANT_UNDERSTORY_SCLS','NPLANT_SCLS','NPLANT_SCAG','NPLANT_CANOPY_SCLS','MORTALITY_UNDERSTORY_SCLS','MORTALITY_CANOPY_SCLS','MORTALITY','M8_SCLS','M7_SCLS','M6_SCLS','M5_SCLS','M4_SCLS','M3_SCLS','M2_SCLS','M1_SCLS','LEAF_HEIGHT_DIST','LAI_UNDERSTORY_SCLS','LAI_CANOPY_SCLS','LAI_BY_AGE','FUEL_MOISTURE_NFSC','DDBH_UNDERSTORY_SCLS','DDBH_CANOPY_SCLS','CROWNAREA_CAN','CANOPY_HEIGHT_DIST','CANOPY_AREA_BY_AGE','BA_SCLS','NPLANT_UNDERSTORY_SCLS','NPLANT_SCLS','NPLANT_CANOPY_SCLS','CROWN_AREA_CANOPY_SCLS','CROWN_AREA_UNDERSTORY_SCLS'
 EOF
 
 
@@ -85,8 +92,6 @@ EOF
 taxmode = "cycle", "cycle", "cycle"
 EOF
 done
-
-##### cheyenne only sed -i -- 's/cs={{ tasks_per_node }}:ompthreads={{ thread_count }}/cs={{ tasks_per_node }}:ompthreads={{ thread_count }}:mem=109GB/g' env_batch.xml
 
 ./case.setup
 
