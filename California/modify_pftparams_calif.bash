@@ -167,4 +167,3 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 
 ## non-pft parameters
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_phen_mindayson --val 30 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_fire_drying_ratio --val 13000 
