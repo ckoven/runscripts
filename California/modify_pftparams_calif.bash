@@ -66,8 +66,8 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_leaf_slamax --val 0.0082 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_leaf_slatop --val 0.0082 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_leaf_stor_priority --val 0.7 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_freezetol --val -12 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_bmort --val 0.002150000073 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_freezetol --val -29 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_bmort --val 0.00215 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_recruit_initd --val 0.08 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_roota_par --val 5 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_rootb_par --val 1 
@@ -100,8 +100,8 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_leaf_slamax --val 0.0063 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_leaf_slatop --val 0.0063 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_leaf_stor_priority --val 0.7 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_freezetol --val -12 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_bmort --val 0.002150000073 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_freezetol --val -29 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_bmort --val 0.00215 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_recruit_initd --val 0.08 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_roota_par --val 5 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_rootb_par --val 1 
