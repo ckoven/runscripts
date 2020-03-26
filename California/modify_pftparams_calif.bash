@@ -74,8 +74,6 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_smpsc --val -357798 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_wood_density --val 0.369 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_z0mr --val 0.025 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_fire_drying_ratio --val 13000 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_phen_mindayson --val 30 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_prt_nitr_stoich_p1 --val 0.019,0.016,0.00018,0.001,0,0.0066 
 
 ### modify parameter values for the incense_cedar pft
@@ -110,8 +108,6 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_smpsc --val -722806 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_wood_density --val 0.487 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_z0mr --val 0.025 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_fire_drying_ratio --val 13000 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_phen_mindayson --val 30 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_prt_nitr_stoich_p1 --val 0.012,0.016,0.00018,0.001,0,0.0066 
 
 ### modify parameter values for the c4_grass pft
@@ -151,7 +147,6 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_rootb_par --val 1 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_seed_dbh_repro_threshold --val 0.5 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_wood_density --val 0.01 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_phen_mindayson --val 30 
 
 ### modify parameter values for the calif_shrub pft
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_shrub --var fates_leaf_vcmax25top --val 47.86 
@@ -167,3 +162,9 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_shrub --var fates_leaf_slamax --val 0.01 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_shrub --var fates_leaf_slatop --val 0.01 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_shrub --var fates_wood_density --val 0.63 
+
+
+
+## non-pft parameters
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_phen_mindayson --val 30 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_fire_drying_ratio --val 13000 
