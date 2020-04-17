@@ -1,8 +1,11 @@
 #! /bin/bash
 
 ### where are all the things?
-param_file_dir=~/datasets/fates_param_files/CA_PFTs
-srcdir=~/Documents/model_source/ctsm/src/fates/
+# param_file_dir=~/datasets/fates_param_files/CA_PFTs
+# srcdir=~/Documents/model_source/ctsm/src/fates/
+# scriptdir=$srcdir/tools/
+param_file_dir=/glade/scratch/charlie/parameter_file_sandbox
+srcdir=/glade/u/home/charlie/ctsm/src/fates/
 scriptdir=$srcdir/tools/
 
 ### record the hash of the fates version of the original cdl file
@@ -11,7 +14,7 @@ GITHASH=`git log -n 1 --format=%h`
 DATE=`date +%Y%m%d`
 
 ### what do you want to call the pft file?
-descriptor=calif_5pfts
+descriptor=calif_4pfts_lesstreesmoregrass
 
 ### give the resulting file a name that incorporates both the hash, the descriptor, and the date
 orig_fname=$param_file_dir/fates_params_default_$GITHASH.nc
@@ -21,27 +24,29 @@ mod_fname=$param_file_dir/fates_params_mod_${GITHASH}_${descriptor}_${DATE}.nc
 ncgen -o $orig_fname $srcdir/parameter_files/fates_params_default.cdl
 
 ### extract the relevant PFTs
-$scriptdir/FatesPFTIndexSwapper.py --pft-indices=2,2,6,7,12 --fin=$orig_fname --fout=$mod_fname
+#$scriptdir/FatesPFTIndexSwapper.py --pft-indices=2,2,6,7,12 --fin=$orig_fname --fout=$mod_fname
+$scriptdir/FatesPFTIndexSwapper.py --pft-indices=2,2,7,12 --fin=$orig_fname --fout=$mod_fname
 
 ## rename the PFTs
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 1 --var fates_pftname --val ponderosa_pine
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 2 --var fates_pftname --val incense_cedar
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 3 --var fates_pftname --val calif_oak
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 4 --var fates_pftname --val calif_shrub
-## don't need to rename c4_grass
+#$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 3 --var fates_pftname --val calif_oak
+#$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 4 --var fates_pftname --val calif_shrub
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pft 3 --var fates_pftname --val calif_shrub
+# ## don't need to rename c4_grass
 
-### modify parameter values for the calif_oak pft
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb1 --val 0.25 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb2 --val 0.7238 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb3 --val 1.491045 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb4 --val 1 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2bl1 --val 0.3 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h1 --val 0.688762 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h2 --val 0.1287216 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h3 --val -999.9 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_fire_bark_scaler --val 0.1 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_mort_bmort --val 0.014 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_wood_density --val 0.72 
+# ### modify parameter values for the calif_oak pft
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb1 --val 0.25 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb2 --val 0.7238 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb3 --val 1.491045 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_agb4 --val 1 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2bl1 --val 0.3 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h1 --val 0.688762 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h2 --val 0.1287216 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_allom_d2h3 --val -999.9 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_fire_bark_scaler --val 0.1 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_mort_bmort --val 0.014 
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname calif_oak --var fates_wood_density --val 0.72 
 
 ### modify parameter values for the ponderosa_pine pft
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_leaf_vcmax25top --val 65.7 
@@ -68,7 +73,7 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_leaf_stor_priority --val 0.7 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_freezetol --val -29 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_mort_bmort --val 0.00215 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_recruit_initd --val 0.08 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_recruit_initd --val 0.02
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_roota_par --val 5 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_rootb_par --val 1 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname ponderosa_pine --var fates_smpsc --val -357798 
@@ -102,7 +107,7 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_leaf_stor_priority --val 0.7 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_freezetol --val -29 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_mort_bmort --val 0.00215 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_recruit_initd --val 0.08 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_recruit_initd --val 0.02
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_roota_par --val 5 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_rootb_par --val 1 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname incense_cedar --var fates_smpsc --val -722806 
@@ -142,7 +147,7 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_rholnir --val 0.45 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_rhosnir --val 0.39 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_rhosvis --val 0.16 
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_recruit_initd --val 20 
+$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_recruit_initd --val 1000 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_roota_par --val 7 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_rootb_par --val 1 
 $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pftname c4_grass --var fates_seed_dbh_repro_threshold --val 0.5 
@@ -165,5 +170,5 @@ $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --pf
 
 
 
-## non-pft parameters
-$scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_phen_mindayson --val 30 
+# ## non-pft parameters
+# $scriptdir/modify_fates_paramfile.py --O --fin $mod_fname --fout $mod_fname --var fates_phen_mindayson --val 30 
